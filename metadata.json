@@ -1,0 +1,6 @@
+{
+  "name": "Spotlight SA - Adelaide Salon Digital Marketing",
+  "description": "Adelaide digital marketing consultancy helping independent beauty salons turn online attention into confirmed customer bookings.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

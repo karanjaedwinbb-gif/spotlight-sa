@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Anti-theme-flicker script (defaults to warm cream light theme) -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('spotlight_theme');
+        if (saved === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  
+  <!-- Primary SEO Metadata -->
+  <title>Spotlight SA – Beauty Salon Marketing Adelaide | Turn Attention into Bookings</title>
+  <meta name="description" content="Spotlight SA helps Adelaide beauty salons turn online attention into confirmed bookings through local SEO, Google Business Profile optimisation, and website conversion.">
+  <meta name="keywords" content="Beauty salon marketing Adelaide, Beauty salon SEO Adelaide, Salon digital marketing Adelaide, Salon website marketing, Beauty salon marketing consultant, Google Business Profile for beauty salons, How to get more salon bookings">
+  <meta name="author" content="Spotlight SA">
+  
+  <!-- Canonical & OpenGraph URLs for GitHub Pages -->
+  <link rel="canonical" href="https://karanjaedwinbb-gif.github.io/spotlight-sa/index.html">
+  <meta property="og:url" content="https://karanjaedwinbb-gif.github.io/spotlight-sa/">
+  
+  <!-- OpenGraph Social Cards -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Spotlight SA">
+  <meta property="og:title" content="Spotlight SA – Beauty Salon Marketing Adelaide">
+  <meta property="og:description" content="Helping independent Adelaide beauty salons turn online visibility and social engagement into loyal customer bookings.">
+  <meta property="og:image" content="./assets/images/hero_consultancy.jpg">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Spotlight SA – Adelaide Salon Digital Marketing">
+  <meta name="twitter:description" content="Practical, outcome-focused digital marketing and local SEO for Adelaide lash, brow, nail and beauty salons.">
+  <meta name="twitter:image" content="./assets/images/hero_consultancy.jpg">
+
+  <!-- Typography & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+
+  <!-- Schema.org Structured Data (ProfessionalService & FAQPage) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Spotlight SA",
+    "description": "Digital marketing consultancy helping Adelaide beauty salons turn online attention into customer bookings through local SEO and booking conversion.",
+    "url": "https://karanjaedwinbb-gif.github.io/spotlight-sa/",
+    "areaServed": {
+      "@type": "City",
+      "name": "Adelaide",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "South Australia"
+      }
+    },
+    "serviceType": [
+      "Beauty Salon SEO Adelaide",
+      "Salon Website Booking Optimisation",
+      "Social Media Marketing and Analytics",
+      "Google Business Profile Support"
+    ],
+    "knowsAbout": [
+      "Beauty salon marketing Adelaide",
+      "Salon booking conversion tips",
+      "Google Business Profile for beauty salons",
+      "Adelaide small business digital strategy"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar (Strict 3-Zone Contract) -->
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-wrapper">
+        <!-- Zone 1: Wordmark -->
+        <a href="./index.html" class="brand-wordmark" aria-label="Spotlight SA Home">
+          <span>Spotlight SA</span><span class="brand-dot" aria-hidden="true">.</span>
+        </a>
+
+        <!-- Zone 2: Navigation Links -->
+        <nav class="site-nav" id="siteNav" aria-label="Primary Navigation">
+          <a href="./index.html" class="nav-link active" aria-current="page">Home</a>
+          <a href="./about.html" class="nav-link">About</a>
+          <a href="./services.html" class="nav-link">Services</a>
+          <a href="./growth-check.html" class="nav-link">Salon Growth Check</a>
+          <a href="./contact.html" class="nav-link">Contact</a>
+        </nav>
+
+        <!-- Zone 3: Navigation Actions & Theme Toggle -->
+        <div class="nav-actions">
+          <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle light or dark theme" title="Toggle theme">
+            <!-- Sun icon for dark mode -->
+            <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <!-- Moon icon for light mode -->
+            <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          
+          <a href="./growth-check.html" class="btn btn-primary btn-sm" data-track-cta="Nav Free Salon Check" data-track-location="Header">Free Growth Check</a>
+          
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle navigation menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" aria-labelledby="hero-heading">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="hero-kicker">Adelaide Salon Digital Marketing Strategy</span>
+            <h1 id="hero-heading" class="hero-title">Turn Online Attention Into More Salon Bookings.</h1>
+            <p class="hero-lead">
+              Spotlight SA is an Adelaide digital marketing consultancy focused on independent salon owners providing lashes, brows, nails, waxing and beauty treatments. We help you build local visibility, inspire client trust, and streamline appointment bookings without technical overwhelm.
+            </p>
+            <div class="hero-ctas">
+              <a href="./growth-check.html" class="btn btn-primary btn-lg" data-track-cta="Try the Free Salon Growth Check" data-track-location="Hero">Try the Free Salon Growth Check</a>
+              <a href="./services.html" class="btn btn-secondary btn-lg" data-track-cta="Explore Our Services" data-track-location="Hero">Explore Our Services</a>
+            </div>
+            <!-- Zero-Pill Metadata Line -->
+            <div class="hero-meta">
+              <span>Metropolitan Adelaide Focus</span>
+              <span class="meta-divider" aria-hidden="true">·</span>
+              <span>Lashes, Brows, Nails &amp; Skin</span>
+              <span class="meta-divider" aria-hidden="true">·</span>
+              <span>Outcome-Focused Marketing</span>
+            </div>
+          </div>
+
+          <div class="hero-media">
+            <div class="hero-image-frame">
+              <img src="./assets/images/hero_consultancy.jpg" alt="Spotlight SA digital marketing consultant reviewing Adelaide salon performance analytics on laptop" width="800" height="450" loading="eager" referrerpolicy="no-referrer">
+            </div>
+            <p class="hero-caption">Strategic digital marketing for independent Adelaide beauty businesses</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Strategic Pillars Strip -->
+    <section class="pillars-strip" aria-label="Core Marketing Framework">
+      <div class="container">
+        <div class="pillars-grid">
+          <div class="pillar-item">
+            <h3>01. Get Found Locally</h3>
+            <p>Targeted Google Business Profile and local search optimisation across Adelaide suburbs.</p>
+          </div>
+          <div class="pillar-item">
+            <h3>02. Turn Interest into Bookings</h3>
+            <p>Removing website friction, establishing clear treatment pricing, and streamlining booking flows.</p>
+          </div>
+          <div class="pillar-item">
+            <h3>03. Measure Without Jargon</h3>
+            <p>Tracking confirmed appointment enquiries rather than chasing empty social media likes.</p>
+          </div>
+          <div class="pillar-item">
+            <h3>04. Build Digital Trust</h3>
+            <p>Authentic reviews, consistent before-and-after work, and foundational client data privacy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Three Core Services Overview -->
+    <section class="section" aria-labelledby="services-overview-heading">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-kicker">Our Focus Areas</span>
+          <h2 id="services-overview-heading" class="section-title">Practical Digital Marketing for Adelaide Beauty Salons</h2>
+          <p class="section-subtitle">
+            Most Adelaide salon owners juggle appointments, client care, and daily operations. We propose three tailored services designed to convert local searchers into paying salon appointments.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <!-- Service Card 1 -->
+          <article class="service-card">
+            <span class="service-number">01 / LOCAL DISCOVERY</span>
+            <h3 class="service-title">Local SEO &amp; Google Business Profile Support</h3>
+            <p class="service-summary">
+              When Adelaide locals search for lash extensions, brow sculpts or nail art nearby, your salon should appear prominently on Google Maps and search results.
+            </p>
+            <ul class="service-points">
+              <li>Adelaide suburban map pin optimisation</li>
+              <li>Treatment category &amp; service menu accuracy</li>
+              <li>Proactive review collection strategies</li>
+            </ul>
+            <a href="./services.html#local-seo" class="service-link" data-track-service="Local SEO Overview">
+              Explore Local SEO Details <span aria-hidden="true">&rarr;</span>
+            </a>
+          </article>
+
+          <!-- Service Card 2 -->
+          <article class="service-card">
+            <span class="service-number">02 / BOOKING FLOWS</span>
+            <h3 class="service-title">Website &amp; Booking Conversion Optimisation</h3>
+            <p class="service-summary">
+              Traffic is meaningless if visitors leave without booking. We help salons simplify menus, publish clear pricing, and embed effortless booking calls-to-action.
+            </p>
+            <ul class="service-points">
+              <li>Mobile navigation and page speed checks</li>
+              <li>Transparent service durations and prices</li>
+              <li>Direct booking engine integration (Fresha, Timely)</li>
+            </ul>
+            <a href="./services.html#conversion" class="service-link" data-track-service="Conversion Optimisation Overview">
+              Explore Conversion Support <span aria-hidden="true">&rarr;</span>
+            </a>
+          </article>
+
+          <!-- Service Card 3 -->
+          <article class="service-card">
+            <span class="service-number">03 / SOCIAL ANALYTICS</span>
+            <h3 class="service-title">Social Media Marketing &amp; Analytics</h3>
+            <p class="service-summary">
+              Stop guessing which Instagram reels or Facebook posts actually bring clients through your door. We establish simple tracking to measure real booking interest.
+            </p>
+            <ul class="service-points">
+              <li>Strategic content calendars showcasing real work</li>
+              <li>Bio link tracking to measure booking clicks</li>
+              <li>Client referral source intake systems</li>
+            </ul>
+            <a href="./services.html#social-analytics" class="service-link" data-track-service="Social Analytics Overview">
+              Explore Social &amp; Analytics <span aria-hidden="true">&rarr;</span>
+            </a>
+          </article>
+        </div>
+
+        <!-- Supporting Educational Resource (Cybersecurity) -->
+        <div class="support-resource-card">
+          <div class="support-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <div class="support-content">
+            <span class="support-tag">Complimentary Educational Guide · Salon Cyber Hygiene</span>
+            <h4>Foundational Cybersecurity &amp; Client Data Privacy for Salons</h4>
+            <p>
+              Salons store sensitive client phone numbers, booking histories, and payment records. As a supporting educational resource, Spotlight SA provides practical guidelines on two-factor authentication, secure booking platforms, and protecting client privacy under Australian standards.
+            </p>
+            <a href="./services.html#cybersecurity" class="service-link">Read our salon security guidance <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Local Visibility & Conversion Matter (Editorial Split) -->
+    <section class="section section-alt" aria-labelledby="importance-heading">
+      <div class="container">
+        <div class="split-layout">
+          <div class="split-image-container">
+            <img src="./assets/images/local_seo.jpg" alt="Consultation desk with tablet displaying Adelaide local search map profile and appointment schedule" width="700" height="525" loading="lazy" referrerpolicy="no-referrer">
+          </div>
+          <div class="split-content">
+            <span class="section-kicker">Strategic Context</span>
+            <h2 id="importance-heading" class="section-title">Why Visibility and Booking Conversion Matter in Adelaide</h2>
+            <blockquote class="lead-quote">
+              "A beautiful Instagram feed creates curiosity, but an optimized Google profile and an effortless booking flow create a full appointment diary."
+            </blockquote>
+            <p>
+              In metropolitan Adelaide—from Norwood and Prospect to Glenelg and Unley—beauty clients rarely book the first salon they stumble upon. They search Google Maps to verify proximity, check recent Google reviews for proof of clean technique, and compare service menus.
+            </p>
+            <p>
+              If your opening hours are missing, pricing is hidden, or your booking link requires sending multiple back-and-forth Instagram DMs, over 60% of potential clients abandon their intention and choose a competitor offering instant online reservation.
+            </p>
+            <div style="margin-top: 1.5rem;">
+              <a href="./growth-check.html" class="btn btn-primary" data-track-cta="Audit Your Salon Online" data-track-location="Split Section">Check Your Salon's Online Readiness</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How Digital Marketing Supports Salon Growth -->
+    <section class="section" aria-labelledby="framework-heading">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-kicker">The Booking Journey</span>
+          <h2 id="framework-heading" class="section-title">How Digital Marketing Builds Long-Term Salon Equity</h2>
+          <p class="section-subtitle">
+            Rather than relying on random promotions or unsustainable discount schemes, we structure salon marketing around a repeatable customer acquisition model.
+          </p>
+        </div>
+
+        <div class="framework-grid">
+          <div class="framework-step">
+            <div class="step-header">
+              <span class="step-badge">Stage 1</span>
+              <span style="font-size: 1.25rem; color: var(--accent-rose);" aria-hidden="true">&bull;</span>
+            </div>
+            <h3 class="step-title">Attract Qualified Local Searchers</h3>
+            <p class="step-desc">
+              Capture clients with high booking intent searching for "eyelash extensions Adelaide" or "brow lamination near me", putting your salon in Google's Top 3 Local Pack.
+            </p>
+          </div>
+
+          <div class="framework-step">
+            <div class="step-header">
+              <span class="step-badge">Stage 2</span>
+              <span style="font-size: 1.25rem; color: var(--accent-rose);" aria-hidden="true">&bull;</span>
+            </div>
+            <h3 class="step-title">Eliminate Booking Hesitation</h3>
+            <p class="step-desc">
+              Answer the four key questions clients have before booking: Where are you located? What does it cost? How long does it take? And what do other Adelaide clients say?
+            </p>
+          </div>
+
+          <div class="framework-step">
+            <div class="step-header">
+              <span class="step-badge">Stage 3</span>
+              <span style="font-size: 1.25rem; color: var(--accent-rose);" aria-hidden="true">&bull;</span>
+            </div>
+            <h3 class="step-title">Track Real Business Outcomes</h3>
+            <p class="step-desc">
+              Understand your cost of acquiring a client, identify repeat appointment frequency, and focus marketing time only on channels that demonstrably generate bookings.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO & GEO Knowledge Card (Answer Engine Optimisation) -->
+    <section class="section section-alt" aria-labelledby="aeo-overview-heading">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-kicker">Digital Strategy Snapshot</span>
+          <h2 id="aeo-overview-heading" class="section-title">Key Answers for Adelaide Beauty Businesses</h2>
+          <p class="section-subtitle">Direct, structured answers to high-intent questions asked by salon owners and search engines.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; max-width: 900px; margin: 0 auto;">
+          <div class="aeo-definition-card">
+            <h4>What is Beauty Salon SEO in Adelaide?</h4>
+            <p>
+              Beauty salon SEO in Adelaide is the process of optimizing a local salon's Google Business Profile, website content, and directory citations so it appears in the top map and organic search results when clients in Adelaide search for lashes, brows, nails, or waxing treatments.
+            </p>
+          </div>
+
+          <div class="aeo-definition-card">
+            <h4>How can an Adelaide salon increase website booking conversions?</h4>
+            <p>
+              Salons boost conversions by publishing transparent pricing, stating treatment durations, maintaining fast mobile load times, and integrating direct calendar booking links (e.g. Fresha, Timely) instead of requiring manual Instagram direct messages.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" aria-labelledby="home-faq-heading">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-kicker">Frequently Asked Questions</span>
+          <h2 id="home-faq-heading" class="section-title">Questions Adelaide Salon Owners Ask</h2>
+          <p class="section-subtitle">Clear, realistic answers about beauty salon digital marketing without false promises.</p>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false">
+              <span>How do Adelaide beauty salons get more bookings through Google?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Adelaide salons achieve higher booking numbers by claiming and fully verifying their Google Business Profile, accurately selecting specific primary categories (such as "Eyelash Salon" or "Waxing Hair Removal Service"), uploading weekly high-resolution photos of treatments, and linking directly to an automated booking software like Fresha or Timely.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false">
+              <span>Why shouldn't salon marketing rely on social media likes alone?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Social media likes frequently come from other beauty practitioners, interstate accounts, or passive browsers who will never visit your salon. By contrast, a local client searching for "brow lamination Adelaide" has immediate booking intent. Spotlight SA emphasizes tracking website visits, booking link clicks, and actual appointments over vanity engagement metrics.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false">
+              <span>Do you guarantee a specific number of new bookings or rankings?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>No. Ethical digital marketing consultants never guarantee #1 Google rankings or specific customer numbers, as search algorithms and market conditions fluctuate. Spotlight SA focuses on implementing industry-standard best practices, eliminating friction, and improving conversion probability.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section class="section section-alt" aria-labelledby="cta-heading">
+      <div class="container text-center" style="max-width: 42rem; margin: 0 auto; text-align: center;">
+        <span class="section-kicker">Interactive Assessment</span>
+        <h2 id="cta-heading" class="section-title">Benchmark Your Salon's Online Presence Today</h2>
+        <p class="section-subtitle" style="margin-bottom: 2rem;">
+          Take our 2-minute Salon Growth Check to receive instant, practical recommendations tailored to independent Adelaide beauty businesses.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <a href="./growth-check.html" class="btn btn-primary btn-lg" data-track-cta="Start Growth Check Bottom" data-track-location="Footer CTA">Start Free Salon Growth Check</a>
+          <a href="./contact.html" class="btn btn-secondary btn-lg" data-track-cta="Submit Enquiry Bottom" data-track-location="Footer CTA">Submit an Enquiry</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h4>Spotlight SA<span style="color: var(--accent-rose);">.</span></h4>
+          <p>
+            Helping Adelaide beauty salons turn online attention into confirmed customer bookings through ethical, outcome-focused marketing strategy.
+          </p>
+          <p style="margin-top: 1rem; font-size: 0.8125rem; color: #8F9490;">
+            Specializing in local SEO, booking conversion, and analytics for independent beauty businesses in South Australia.
+          </p>
+        </div>
+
+        <div class="footer-column">
+          <h5>Navigation</h5>
+          <ul class="footer-links">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./about.html">About Spotlight SA</a></li>
+            <li><a href="./services.html">Services</a></li>
+            <li><a href="./growth-check.html">Salon Growth Check</a></li>
+            <li><a href="./contact.html">Contact &amp; Enquiry</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h5>Core Services</h5>
+          <ul class="footer-links">
+            <li><a href="./services.html#local-seo">Local SEO &amp; Google Profile</a></li>
+            <li><a href="./services.html#conversion">Website Conversion Optimisation</a></li>
+            <li><a href="./services.html#social-analytics">Social Media &amp; Analytics</a></li>
+            <li><a href="./services.html#cybersecurity">Client Privacy &amp; Security</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h5>Adelaide Focus</h5>
+          <p style="font-size: 0.875rem; color: #A8ADA9; line-height: 1.5; margin-bottom: 1rem;">
+            Serving independent beauty businesses across Metropolitan Adelaide, SA: Lashes, Brows, Nails, Waxing &amp; Skin.
+          </p>
+          <span style="display: inline-block; font-size: 0.75rem; color: #868C88; text-transform: uppercase; letter-spacing: 0.05em;">
+            Adelaide, South Australia
+          </span>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Spotlight SA. All rights reserved. Adelaide, South Australia.</div>
+        <div>Practical, measurable digital marketing for independent beauty salons.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="./script.js"></script>
+</body>
+</html>
