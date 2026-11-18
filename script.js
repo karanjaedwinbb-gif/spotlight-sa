@@ -64,83 +64,76 @@ function initThemeEngine() {
    2. GOOGLE ANALYTICS 4 (GA4) INTEGRATION & DEDUPLICATION
    ========================================================================== */
 
-/**
- * GOOGLE ANALYTICS 4 CONFIGURATION GUIDE:
- * 1. Locate your Measurement ID in Google Analytics (Admin -> Data Streams -> Web -> Measurement ID).
- * 2. Replace 'G-XXXXXXXXXX' below with your actual ID, e.g.:
- *    const GA4_MEASUREMENT_ID = 'G-ABC123XYZ4';
- * 3. Leave as 'G-XXXXXXXXXX' during initial development.
- * 4. Verification in GA4:
- *    - Open Google Analytics 4 -> Reports -> Realtime to see live active users.
- *    - Alternatively, install the Google Analytics Debugger Chrome extension and inspect DebugView.
- */
-const GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX';
-
-// Deduplication cache to prevent firing duplicate events
+// Deduplication cache to prevent firing duplicate events within a short window
 const trackedEventsCache = new Set();
+let analyticsInitialized = false;
 
 function initAnalytics() {
-  const isConfigured = GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== 'G-XXXXXXXXXX';
+  if (analyticsInitialized) return;
+  analyticsInitialized = true;
 
-  if (isConfigured) {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
-    document.head.appendChild(script);
-
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { window.dataLayer.push(arguments); }
-    window.gtag = gtag;
-    gtag('js', new Date());
-    gtag('config', GA4_MEASUREMENT_ID, {
-      anonymize_ip: true,
-      send_page_view: true
-    });
-    console.info(`[Analytics] Google Analytics 4 active with ID: ${GA4_MEASUREMENT_ID}`);
-  } else {
-    console.info('[Analytics] GA4 in demonstration mode (G-XXXXXXXXXX). All tracking events are logged to this browser console.');
+  // Preserve the Google Tag / GA4 configuration loaded in <head> (GTM-PFRB7285)
+  window.dataLayer = window.dataLayer || [];
+  if (typeof window.gtag !== 'function') {
+    window.gtag = function gtag() {
+      window.dataLayer.push(arguments);
+    };
   }
 
-  // Setup click listeners for all primary CTAs
-  document.querySelectorAll('[data-track-cta]').forEach(element => {
-    element.addEventListener('click', () => {
-      const ctaName = element.getAttribute('data-track-cta') || element.textContent.trim();
-      const ctaLocation = element.getAttribute('data-track-location') || window.location.pathname;
+  const hasHeadTag = Boolean(
+    document.querySelector('script[src*="googletagmanager.com/gtm.js"], script[src*="googletagmanager.com/gtag/js"]')
+  );
+
+  if (hasHeadTag) {
+    console.info('[Analytics] Google Analytics 4 ready via existing Google Tag in <head>.');
+  } else {
+    console.info('[Analytics] Tracking events queued to dataLayer and logged to this browser console.');
+  }
+
+  // Delegated click listener for primary CTAs and Service links (prevents duplicate bindings)
+  document.addEventListener('click', (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    if (!target) return;
+
+    const ctaEl = target.closest('[data-track-cta]');
+    if (ctaEl) {
+      const ctaName = ctaEl.getAttribute('data-track-cta') || ctaEl.textContent.trim();
+      const ctaLocation = ctaEl.getAttribute('data-track-location') || window.location.pathname;
       trackEvent('cta_click', {
         cta_label: ctaName,
-        page_location: ctaLocation
+        cta_location: ctaLocation,
+        source_page: window.location.pathname
       });
-    });
-  });
+      return;
+    }
 
-  // Setup click listeners for service enquiry triggers
-  document.querySelectorAll('[data-track-service]').forEach(element => {
-    element.addEventListener('click', () => {
-      const serviceName = element.getAttribute('data-track-service');
+    const serviceEl = target.closest('[data-track-service]');
+    if (serviceEl) {
+      const serviceName = serviceEl.getAttribute('data-track-service');
       trackEvent('service_enquiry_click', {
         service_name: serviceName,
         source_page: window.location.pathname
       });
-    });
+    }
   });
 }
 
 /**
- * Universal Event Tracker with deduplication safeguard
+ * Universal Event Tracker with deduplication safeguard (no PII)
  */
 function trackEvent(eventName, params = {}) {
-  // Deduplicate rapid repeat events
+  // Deduplicate rapid repeat events within 1.5s
   const cacheKey = `${eventName}_${JSON.stringify(params)}_${Math.floor(Date.now() / 1500)}`;
   if (trackedEventsCache.has(cacheKey)) return;
   trackedEventsCache.add(cacheKey);
+  if (trackedEventsCache.size > 100) {
+    trackedEventsCache.clear();
+  }
 
-  const payload = {
+  console.log(`[Spotlight SA Event Tracker] '${eventName}' dispatched:`, {
     ...params,
-    timestamp: new Date().toISOString(),
-    url: window.location.href
-  };
-
-  console.log(`[Spotlight SA Event Tracker] '${eventName}' dispatched:`, payload);
+    page_path: window.location.pathname
+  });
 
   if (typeof window.gtag === 'function') {
     window.gtag('event', eventName, params);
@@ -194,6 +187,7 @@ function initGrowthCheck() {
 
   const totalQuestions = 6;
   let hasStarted = false;
+  let hasCompleted = false;
 
   const radioInputs = quizForm.querySelectorAll('input[type="radio"]');
   radioInputs.forEach(input => {
@@ -257,16 +251,20 @@ function initGrowthCheck() {
 
     const evaluation = evaluateSalonAnswers(answers);
 
-    trackEvent('growth_check_complete', {
-      score: evaluation.score,
-      tier: evaluation.tierTitle
-    });
-
     renderQuizResults(evaluation);
 
     quizContainer.style.display = 'none';
     resultsCard.style.display = 'block';
     resultsCard.scrollIntoView({ behavior: 'smooth' });
+
+    if (!hasCompleted) {
+      hasCompleted = true;
+      trackEvent('growth_check_complete', {
+        score: evaluation.score,
+        tier: evaluation.tierTitle,
+        questions_answered: totalQuestions
+      });
+    }
   });
 
   if (restartBtn) {
@@ -277,6 +275,7 @@ function initGrowthCheck() {
       resultsCard.style.display = 'none';
       quizContainer.style.display = 'block';
       hasStarted = false;
+      hasCompleted = false;
       quizContainer.scrollIntoView({ behavior: 'smooth' });
     });
   }
@@ -577,7 +576,7 @@ function initContactForm() {
         if (response.ok) {
           showNotification(notifBox, 'Enquiry Received', 'Thank you! Your enquiry has been received and our team will review your salon details shortly.', 'success');
           form.reset();
-          trackEvent('contact_form_submit', { business: formData.business, service: formData.service, delivery: 'endpoint' });
+          trackEvent('contact_form_submit', { service: formData.service, delivery: 'endpoint' });
         } else {
           showNotification(notifBox, 'Submission Notice', 'The external form service returned a response error. Please try sending via email below.', 'error');
         }
@@ -585,11 +584,10 @@ function initContactForm() {
         showNotification(notifBox, 'Connection Notice', 'Could not reach the submission endpoint. Please use the direct email button below.', 'error');
       }
     } else {
-      // Functional client-side enquiry receipt with instant email client launcher
-      trackEvent('contact_form_submit', {
-        business: formData.business,
-        service: formData.service,
-        delivery: 'client_validated'
+      // Client-side validation & email draft launcher only (no server/endpoint delivery yet)
+      // Do NOT fire 'contact_form_submit' unless a live FORM_ENDPOINT_URL delivers/stores the submission.
+      trackEvent('contact_enquiry_draft_ready', {
+        service: formData.service
       });
 
       const emailSubject = encodeURIComponent(`Spotlight SA Consultation Enquiry – ${formData.business}`);
@@ -603,14 +601,14 @@ function initContactForm() {
           <h4>Enquiry Details Validated</h4>
           <p>Thank you, <strong>${escapeHtml(formData.name)}</strong>! Your details for <strong>${escapeHtml(formData.business)}</strong> regarding <em>"${escapeHtml(formData.service)}"</em> are ready.</p>
           <div style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <a href="${mailtoUrl}" class="btn btn-primary btn-sm" id="sendMailtoBtn" data-track-cta="Send via Email Client">
+            <a href="${mailtoUrl}" class="btn btn-primary btn-sm" id="sendMailtoBtn" data-track-cta="Send via Email Client" data-track-location="Contact Confirmation">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.35rem;" aria-hidden="true">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
               </svg>
               Open in Email App
             </a>
-            <button type="button" class="btn btn-secondary btn-sm" id="copyEnquiryBtn">
+            <button type="button" class="btn btn-secondary btn-sm" id="copyEnquiryBtn" data-track-cta="Copy Enquiry Message" data-track-location="Contact Confirmation">
               Copy Message Text
             </button>
           </div>
@@ -674,8 +672,9 @@ function initFaqAccordion() {
       if (!isCurrentlyOpen) {
         parentItem.classList.add('open');
         button.setAttribute('aria-expanded', 'true');
+        const questionText = button.querySelector('span:first-child')?.textContent.trim() || button.textContent.trim();
         trackEvent('faq_expand', {
-          question: button.textContent.trim()
+          question: questionText
         });
       }
     });
