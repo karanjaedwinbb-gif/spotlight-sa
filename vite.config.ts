@@ -14,6 +14,8 @@ export default defineConfig(({ command }) => ({
         main: path.resolve(__dirname, 'index.html'),
         about: path.resolve(__dirname, 'about.html'),
         services: path.resolve(__dirname, 'services.html'),
+        blog: path.resolve(__dirname, 'blog.html'),
+        blogArticle: path.resolve(__dirname, 'how-to-attract-more-local-beauty-clients-adelaide.html'),
         growthCheck: path.resolve(__dirname, 'growth-check.html'),
         contact: path.resolve(__dirname, 'contact.html'),
       },
