@@ -497,16 +497,8 @@ function renderQuizResults(evalData) {
 }
 
 /* ==========================================================================
-   5. CONTACT FORM VALIDATION & FUNCTIONAL ENQUIRY
+   5. CONTACT FORM VALIDATION & ENQUIRY MESSAGE PREPARATION
    ========================================================================== */
-
-/**
- * OPTIONAL: Third-party Form Endpoint (e.g. Formspree)
- * Example: const FORM_ENDPOINT_URL = 'https://formspree.io/f/xyzabcde';
- * When left empty, client-side validation runs and provides a 1-click
- * mailto: dispatcher so visitors can send their message immediately.
- */
-const FORM_ENDPOINT_URL = '';
 
 function initContactForm() {
   const form = document.getElementById('enquiryForm');
@@ -514,7 +506,39 @@ function initContactForm() {
 
   if (!form) return;
 
-  form.addEventListener('submit', async (event) => {
+  let preparedMessageText = '';
+  let copyFeedbackTimer = null;
+
+  function clearPreparedMessage() {
+    preparedMessageText = '';
+    if (copyFeedbackTimer) {
+      clearTimeout(copyFeedbackTimer);
+      copyFeedbackTimer = null;
+    }
+    if (notifBox) {
+      notifBox.innerHTML = '';
+      notifBox.className = 'submission-notification';
+      notifBox.style.display = 'none';
+    }
+  }
+
+  function resetAllTransientState() {
+    form.reset();
+    form.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(el => el.classList.remove('error'));
+    form.querySelectorAll('.field-error').forEach(el => el.classList.remove('active'));
+    clearPreparedMessage();
+  }
+
+  // Ensure entered details and prepared messages are not retained across refreshes or page exits
+  resetAllTransientState();
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      resetAllTransientState();
+    }
+  });
+  window.addEventListener('pagehide', resetAllTransientState);
+
+  form.addEventListener('submit', (event) => {
     event.preventDefault();
 
     let isValid = true;
@@ -535,7 +559,7 @@ function initContactForm() {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
-      showError(emailInput, 'errEmail', 'Please enter a valid email address so we can reply.');
+      showError(emailInput, 'errEmail', 'Please enter a valid email address.');
       isValid = false;
     }
 
@@ -554,86 +578,122 @@ function initContactForm() {
       isValid = false;
     }
 
-    if (!isValid) return;
+    if (!isValid) {
+      clearPreparedMessage();
+      return;
+    }
 
     const formData = {
       name: nameInput.value.trim(),
       email: emailInput.value.trim(),
       business: businessInput.value.trim(),
       service: serviceInput.value,
-      message: messageInput.value.trim(),
-      timestamp: new Date().toISOString()
+      message: messageInput.value.trim()
     };
 
-    if (FORM_ENDPOINT_URL && FORM_ENDPOINT_URL.startsWith('http')) {
-      try {
-        const response = await fetch(FORM_ENDPOINT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(formData)
-        });
+    preparedMessageText = [
+      'Spotlight SA Consultation Enquiry',
+      `Name: ${formData.name}`,
+      `Salon / Business: ${formData.business}`,
+      `Email: ${formData.email}`,
+      `Service Interested In: ${formData.service}`,
+      '',
+      'Goals / Challenges:',
+      formData.message
+    ].join('\n');
 
-        if (response.ok) {
-          showNotification(notifBox, 'Enquiry Received', 'Thank you! Your enquiry has been received and our team will review your salon details shortly.', 'success');
-          form.reset();
-          trackEvent('contact_form_submit', { service: formData.service, delivery: 'endpoint' });
-        } else {
-          showNotification(notifBox, 'Submission Notice', 'The external form service returned a response error. Please try sending via email below.', 'error');
-        }
-      } catch (err) {
-        showNotification(notifBox, 'Connection Notice', 'Could not reach the submission endpoint. Please use the direct email button below.', 'error');
-      }
-    } else {
-      // Client-side validation & email draft launcher only (no server/endpoint delivery yet)
-      // Do NOT fire 'contact_form_submit' unless a live FORM_ENDPOINT_URL delivers/stores the submission.
-      trackEvent('contact_enquiry_draft_ready', {
-        service: formData.service
-      });
+    // Track preparation event without transmitting PII (no name, email, salon name, or message body)
+    // Do NOT fire a submission event as this demonstration form does not deliver or store submissions.
+    trackEvent('contact_enquiry_draft_ready', {
+      service: formData.service
+    });
 
-      const emailSubject = encodeURIComponent(`Spotlight SA Consultation Enquiry – ${formData.business}`);
-      const emailBody = encodeURIComponent(
-        `Hi Spotlight SA,\n\nName: ${formData.name}\nSalon Name: ${formData.business}\nEmail: ${formData.email}\nService Interested In: ${formData.service}\n\nGoals / Challenges:\n${formData.message}\n`
-      );
-      const mailtoUrl = `mailto:hello@spotlightsa.com.au?subject=${emailSubject}&body=${emailBody}`;
-
-      const confirmationHTML = `
-        <div class="submission-notification success" style="display: block;">
-          <h4>Enquiry Details Validated</h4>
-          <p>Thank you, <strong>${escapeHtml(formData.name)}</strong>! Your details for <strong>${escapeHtml(formData.business)}</strong> regarding <em>"${escapeHtml(formData.service)}"</em> are ready.</p>
-          <div style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <a href="${mailtoUrl}" class="btn btn-primary btn-sm" id="sendMailtoBtn" data-track-cta="Send via Email Client" data-track-location="Contact Confirmation">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.35rem;" aria-hidden="true">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-              </svg>
-              Open in Email App
-            </a>
-            <button type="button" class="btn btn-secondary btn-sm" id="copyEnquiryBtn" data-track-cta="Copy Enquiry Message" data-track-location="Contact Confirmation">
-              Copy Message Text
-            </button>
-          </div>
+    if (notifBox) {
+      notifBox.className = 'submission-notification demo-prepared';
+      notifBox.style.display = 'block';
+      notifBox.innerHTML = `
+        <h4>Demonstration Form — Enquiry Not Sent</h4>
+        <p>
+          This is a demonstration form created for the Spotlight SA website project. Your enquiry has not been sent or stored. You can review and copy your message below.
+        </p>
+        <div class="prepared-preview-label">Prepared Enquiry Message</div>
+        <pre class="prepared-message-preview" id="preparedMessagePreview"></pre>
+        <div class="prepared-message-actions">
+          <button type="button" class="btn btn-primary btn-sm" id="copyEnquiryBtn" data-track-cta="Copy Enquiry Message" data-track-location="Contact Confirmation">
+            Copy Enquiry Message
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" id="clearPreparedBtn">
+            Clear Prepared Message
+          </button>
         </div>
+        <span class="copy-feedback-status" id="copyFeedbackStatus" aria-live="polite"></span>
       `;
 
-      if (notifBox) {
-        notifBox.innerHTML = confirmationHTML;
-        notifBox.scrollIntoView({ behavior: 'smooth' });
-
-        const copyBtn = document.getElementById('copyEnquiryBtn');
-        if (copyBtn) {
-          copyBtn.addEventListener('click', () => {
-            const textToCopy = `Spotlight SA Enquiry\nName: ${formData.name}\nSalon: ${formData.business}\nEmail: ${formData.email}\nService: ${formData.service}\nMessage: ${formData.message}`;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-              copyBtn.textContent = 'Copied to Clipboard!';
-              setTimeout(() => { copyBtn.textContent = 'Copy Message Text'; }, 2500);
-            });
-          });
-        }
+      const previewEl = document.getElementById('preparedMessagePreview');
+      if (previewEl) {
+        previewEl.textContent = preparedMessageText;
       }
 
-      form.reset();
+      const copyBtn = document.getElementById('copyEnquiryBtn');
+      const statusEl = document.getElementById('copyFeedbackStatus');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          if (!preparedMessageText) return;
+          copyTextToClipboard(preparedMessageText).then((copied) => {
+            if (copied) {
+              copyBtn.textContent = 'Copied Enquiry Message';
+              if (statusEl) {
+                statusEl.textContent = 'Enquiry message copied to your clipboard.';
+              }
+              if (copyFeedbackTimer) clearTimeout(copyFeedbackTimer);
+              copyFeedbackTimer = setTimeout(() => {
+                copyBtn.textContent = 'Copy Enquiry Message';
+                if (statusEl) statusEl.textContent = '';
+              }, 2500);
+            } else if (statusEl) {
+              statusEl.textContent = 'Unable to access clipboard automatically. Please select and copy the preview text above.';
+            }
+          });
+        });
+      }
+
+      const clearBtn = document.getElementById('clearPreparedBtn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          clearPreparedMessage();
+        });
+      }
+
+      notifBox.scrollIntoView({ behavior: 'smooth' });
     }
+
+    form.reset();
   });
+
+  function copyTextToClipboard(text) {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      return navigator.clipboard.writeText(text).then(() => true).catch(() => fallbackCopyText(text));
+    }
+    return Promise.resolve(fallbackCopyText(text));
+  }
+
+  function fallbackCopyText(text) {
+    try {
+      const tempArea = document.createElement('textarea');
+      tempArea.value = text;
+      tempArea.setAttribute('readonly', '');
+      tempArea.style.position = 'fixed';
+      tempArea.style.opacity = '0';
+      tempArea.style.pointerEvents = 'none';
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(tempArea);
+      return successful;
+    } catch (e) {
+      return false;
+    }
+  }
 
   function showError(inputEl, errorId, message) {
     inputEl.classList.add('error');
@@ -642,14 +702,6 @@ function initContactForm() {
       errEl.textContent = message;
       errEl.classList.add('active');
     }
-  }
-
-  function showNotification(boxEl, title, text, type) {
-    if (!boxEl) return;
-    boxEl.className = `submission-notification ${type}`;
-    boxEl.innerHTML = `<h4>${escapeHtml(title)}</h4><p>${escapeHtml(text)}</p>`;
-    boxEl.style.display = 'block';
-    boxEl.scrollIntoView({ behavior: 'smooth' });
   }
 }
 

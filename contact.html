@@ -157,14 +157,12 @@
 
         <!-- Form Column -->
         <div class="contact-form-panel">
-          <div id="formNotification" class="submission-notification"></div>
-
-          <form id="enquiryForm" novalidate>
+          <form id="enquiryForm" autocomplete="off" novalidate>
             <div class="form-group">
               <label for="contactName" class="form-label">
                 Your Full Name <span class="required" aria-hidden="true">*</span>
               </label>
-              <input type="text" id="contactName" name="name" class="form-input" placeholder="e.g. Sarah Jenkins" required autocomplete="name">
+              <input type="text" id="contactName" name="name" class="form-input" placeholder="e.g. Sarah Jenkins" required autocomplete="off">
               <div class="field-error" id="errName">Please enter your name.</div>
             </div>
 
@@ -172,7 +170,7 @@
               <label for="contactEmail" class="form-label">
                 Email Address <span class="required" aria-hidden="true">*</span>
               </label>
-              <input type="email" id="contactEmail" name="email" class="form-input" placeholder="e.g. sarah@glowbeautystudio.com.au" required autocomplete="email">
+              <input type="email" id="contactEmail" name="email" class="form-input" placeholder="e.g. sarah@glowbeautystudio.com.au" required autocomplete="off">
               <div class="field-error" id="errEmail">Please provide a valid email address.</div>
             </div>
 
@@ -207,14 +205,12 @@
               <div class="field-error" id="errMessage">Please enter a brief message (minimum 10 characters).</div>
             </div>
 
-            <p class="privacy-notice">
-              <strong>Privacy Statement:</strong> Information entered into this form is handled in accordance with the Australian Privacy Principles (APPs). Spotlight SA respects client confidentiality and does not sell or distribute records to third-party marketing brokers.
-            </p>
-
             <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="submitEnquiryBtn">
-              Submit Salon Consultation Enquiry
+              Send Enquiry
             </button>
           </form>
+
+          <div id="formNotification" class="submission-notification" aria-live="polite"></div>
         </div>
       </div>
     </div>
