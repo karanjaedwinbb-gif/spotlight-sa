@@ -6,11 +6,37 @@
 document.addEventListener('DOMContentLoaded', () => {
   initThemeEngine();
   initAnalytics();
+  initSkipLink();
   initMobileNavigation();
   initGrowthCheck();
   initContactForm();
   initFaqAccordion();
 });
+
+function prefersReducedMotion() {
+  return Boolean(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+}
+
+function scrollElementIntoView(element) {
+  if (!element || typeof element.scrollIntoView !== 'function') return;
+  element.scrollIntoView({
+    behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    block: 'start'
+  });
+}
+
+function initSkipLink() {
+  const skipLink = document.querySelector('.skip-link');
+  const mainEl = document.getElementById('main-content');
+  if (!skipLink || !mainEl) return;
+
+  skipLink.addEventListener('click', () => {
+    if (!mainEl.hasAttribute('tabindex')) {
+      mainEl.setAttribute('tabindex', '-1');
+    }
+    mainEl.focus({ preventScroll: true });
+  });
+}
 
 /* ==========================================================================
    1. THEME ENGINE (LIGHT & DARK MODE)
@@ -150,10 +176,17 @@ function initMobileNavigation() {
 
   if (!menuBtn || !siteNav) return;
 
-  menuBtn.addEventListener('click', () => {
+  menuBtn.addEventListener('click', (event) => {
     const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
-    menuBtn.setAttribute('aria-expanded', !isExpanded);
+    const nextExpanded = !isExpanded;
+    menuBtn.setAttribute('aria-expanded', String(nextExpanded));
     siteNav.classList.toggle('open');
+
+    // When opened via keyboard (Enter/Space), move focus to first navigation link
+    if (nextExpanded && event && event.detail === 0) {
+      const firstNavLink = siteNav.querySelector('a');
+      if (firstNavLink) firstNavLink.focus();
+    }
   });
 
   document.addEventListener('click', (event) => {
@@ -232,6 +265,7 @@ function initGrowthCheck() {
       if (validationError) {
         validationError.textContent = `Please answer all ${totalQuestions} questions to calculate your complete recommendations (${answeredCount}/${totalQuestions} answered).`;
         validationError.style.display = 'block';
+        scrollElementIntoView(validationError);
       }
       return;
     }
@@ -255,7 +289,11 @@ function initGrowthCheck() {
 
     quizContainer.style.display = 'none';
     resultsCard.style.display = 'block';
-    resultsCard.scrollIntoView({ behavior: 'smooth' });
+    scrollElementIntoView(resultsCard);
+    if (!resultsCard.hasAttribute('tabindex')) {
+      resultsCard.setAttribute('tabindex', '-1');
+    }
+    resultsCard.focus({ preventScroll: true });
 
     if (!hasCompleted) {
       hasCompleted = true;
@@ -276,7 +314,9 @@ function initGrowthCheck() {
       quizContainer.style.display = 'block';
       hasStarted = false;
       hasCompleted = false;
-      quizContainer.scrollIntoView({ behavior: 'smooth' });
+      scrollElementIntoView(quizContainer);
+      const firstInput = quizForm.querySelector('input[type="radio"]');
+      if (firstInput) firstInput.focus({ preventScroll: true });
     });
   }
 
@@ -612,7 +652,7 @@ function initContactForm() {
       notifBox.className = 'submission-notification demo-prepared';
       notifBox.style.display = 'block';
       notifBox.innerHTML = `
-        <h4>Demonstration Form — Enquiry Not Sent</h4>
+        <h3>Demonstration Form — Enquiry Not Sent</h3>
         <p>
           This is a demonstration form created for the Spotlight SA website project. Your enquiry has not been sent or stored. You can review and copy your message below.
         </p>
@@ -664,7 +704,7 @@ function initContactForm() {
         });
       }
 
-      notifBox.scrollIntoView({ behavior: 'smooth' });
+      scrollElementIntoView(notifBox);
     }
 
     form.reset();

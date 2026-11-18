@@ -4,7 +4,7 @@
    ========================================================================== */
 
 :root {
-  /* Signature Warm Tan / Cream Light Palette */
+  /* Signature Warm Tan / Cream Light Palette (WCAG AA Contrast-Verified) */
   --bg-canvas: #FAF7F2;        /* Warm cream background */
   --bg-surface: #FFFDF9;       /* Soft warm surface for cards/panels */
   --bg-surface-alt: #F4EFEA;   /* Light tan for alternate strips */
@@ -12,15 +12,24 @@
   
   --text-main: #212523;        /* Deep charcoal */
   --text-muted: #575E59;       /* Medium muted charcoal */
-  --text-light: #7E8681;       /* Light neutral metadata */
+  --text-light: #636A65;       /* Contrast-safe metadata (>= 4.86:1 on all light surfaces) */
   
-  --accent-rose: #B86B73;
-  --accent-rose-hover: #9E555C;
-  --accent-rose-dark: #823E45;
+  --accent-rose: #9C4E57;      /* Contrast-safe muted rose (>= 4.90:1 across all light surfaces) */
+  --accent-rose-hover: #833D45;
+  --accent-rose-dark: #6D3037;
   --accent-rose-soft: #EED8DB;
   
-  --border-subtle: #E8E0D5;    /* Warm tan border */
+  --btn-primary-bg: #9C4E57;
+  --btn-primary-hover: #833D45;
+  --btn-primary-text: #FFFFFF;
+  
+  --border-subtle: #E8E0D5;    /* Warm tan decorative divider/card border */
+  --border-control: #8E867B;   /* >= 3.14:1 boundary contrast for inputs & buttons */
   --border-rose: #E5D0D3;
+  
+  --text-error: #B91C1C;
+  --bg-error: rgba(185, 28, 28, 0.08);
+  --text-warning: #8A5D00;
   
   --shadow-sm: 0 1px 3px rgba(33, 37, 35, 0.05), 0 1px 2px rgba(33, 37, 35, 0.03);
   --shadow-md: 0 4px 12px rgba(33, 37, 35, 0.07), 0 1px 3px rgba(33, 37, 35, 0.04);
@@ -47,15 +56,24 @@ html.dark {
   
   --text-main: #F3F1ED;
   --text-muted: #B5BBB7;
-  --text-light: #89908B;
+  --text-light: #949B96;
   
   --accent-rose: #D1848B;
   --accent-rose-hover: #E49BA2;
   --accent-rose-dark: #F3B5BC;
   --accent-rose-soft: #422D31;
   
+  --btn-primary-bg: #AA555E;
+  --btn-primary-hover: #92444D;
+  --btn-primary-text: #FFFFFF;
+  
   --border-subtle: #2C3330;
+  --border-control: #77807A;
   --border-rose: #443135;
+  
+  --text-error: #FCA5A5;
+  --bg-error: rgba(248, 113, 113, 0.14);
+  --text-warning: #E6B84C;
   
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
@@ -104,9 +122,49 @@ button, input, select, textarea {
   color: inherit;
 }
 
-/* Accessibility: Focus rings */
+/* Accessibility: Skip Link & Focus Rings */
+.skip-link {
+  position: fixed;
+  left: 0.75rem;
+  top: -120px;
+  z-index: 1000;
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  padding: 0.65rem 1.15rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 0.75rem;
+  outline: 3px solid var(--text-main);
+  outline-offset: 2px;
+}
+
+#main-content {
+  scroll-margin-top: 5rem;
+}
+
+#main-content:focus-visible {
+  outline: 2px solid var(--accent-rose);
+  outline-offset: -4px;
+}
+
+[id] {
+  scroll-margin-top: 5rem;
+}
+
 :focus-visible {
   outline: 2px solid var(--accent-rose);
+  outline-offset: 3px;
+}
+
+.site-footer :focus-visible {
+  outline: 2px solid #E49BA2;
   outline-offset: 3px;
 }
 
@@ -213,7 +271,7 @@ button, input, select, textarea {
 /* Light / Dark Mode Toggle Button */
 .theme-toggle-btn {
   background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-control);
   border-radius: var(--radius-md);
   width: 2.35rem;
   height: 2.35rem;
@@ -255,7 +313,7 @@ html.dark .theme-toggle-btn .moon-icon {
   align-items: center;
   justify-content: center;
   background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-control);
   border-radius: var(--radius-md);
   width: 2.35rem;
   height: 2.35rem;
@@ -289,20 +347,24 @@ html.dark .theme-toggle-btn .moon-icon {
 }
 
 .btn-primary {
-  background-color: var(--accent-rose);
-  color: #FFFFFF;
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+}
+
+html.dark .btn-primary {
+  border-color: #D1848B;
 }
 
 .btn-primary:hover {
-  background-color: var(--accent-rose-hover);
-  color: #FFFFFF;
+  background-color: var(--btn-primary-hover);
+  color: var(--btn-primary-text);
   box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary {
   background-color: var(--bg-surface);
   color: var(--text-main);
-  border-color: var(--border-subtle);
+  border-color: var(--border-control);
 }
 
 .btn-secondary:hover {
@@ -435,6 +497,7 @@ html.dark .theme-toggle-btn .moon-icon {
   gap: 1.75rem;
 }
 
+.pillar-item h2,
 .pillar-item h3 {
   font-size: 0.9375rem;
   font-weight: 700;
@@ -616,6 +679,14 @@ html.dark .theme-toggle-btn .moon-icon {
   color: var(--accent-rose);
 }
 
+.badge-vanity {
+  color: var(--text-error);
+}
+
+.badge-bridge {
+  color: var(--text-warning);
+}
+
 .step-title {
   font-size: 1.1rem;
   font-weight: 700;
@@ -704,6 +775,7 @@ html.dark .theme-toggle-btn .moon-icon {
   color: var(--accent-rose);
 }
 
+.support-content h3,
 .support-content h4 {
   font-size: 1.1rem;
   font-weight: 700;
@@ -752,6 +824,7 @@ html.dark .theme-toggle-btn .moon-icon {
   margin-bottom: 1.5rem;
 }
 
+.aeo-definition-card h3,
 .aeo-definition-card h4 {
   font-size: 0.95rem;
   font-weight: 700;
@@ -794,9 +867,10 @@ html.dark .theme-toggle-btn .moon-icon {
 
 .quiz-progress-track {
   width: 100%;
-  height: 6px;
+  height: 8px;
   background-color: var(--bg-surface-alt);
-  border-radius: 3px;
+  border: 1px solid var(--border-control);
+  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -845,7 +919,7 @@ html.dark .theme-toggle-btn .moon-icon {
   align-items: flex-start;
   gap: 0.85rem;
   padding: 0.95rem 1.15rem;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-control);
   border-radius: var(--radius-md);
   cursor: pointer;
   background-color: var(--bg-surface-alt);
@@ -857,6 +931,11 @@ html.dark .theme-toggle-btn .moon-icon {
   background-color: var(--bg-rose-tint);
 }
 
+.option-label:has(input[type="radio"]:focus-visible) {
+  outline: 2px solid var(--accent-rose);
+  outline-offset: 2px;
+}
+
 .option-label input[type="radio"] {
   margin-top: 0.25rem;
   accent-color: var(--accent-rose);
@@ -865,6 +944,18 @@ html.dark .theme-toggle-btn .moon-icon {
 .option-label.selected {
   border-color: var(--accent-rose);
   background-color: var(--bg-rose-tint);
+}
+
+.quiz-validation-msg {
+  display: none;
+  padding: 1rem;
+  background-color: var(--bg-error);
+  border: 1px solid var(--text-error);
+  border-radius: var(--radius-md);
+  color: var(--text-error);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 1.5rem;
 }
 
 .option-text strong {
@@ -1023,6 +1114,7 @@ html.dark .theme-toggle-btn .moon-icon {
   transition: var(--theme-transition);
 }
 
+.contact-info-panel h2,
 .contact-info-panel h3 {
   font-size: 1.2rem;
   font-weight: 700;
@@ -1078,7 +1170,7 @@ html.dark .theme-toggle-btn .moon-icon {
 .form-input, .form-select, .form-textarea {
   width: 100%;
   padding: 0.7rem 0.95rem;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-control);
   border-radius: var(--radius-md);
   background-color: var(--bg-canvas);
   color: var(--text-main);
@@ -1089,17 +1181,17 @@ html.dark .theme-toggle-btn .moon-icon {
 .form-input:focus, .form-select:focus, .form-textarea:focus {
   outline: none;
   border-color: var(--accent-rose);
-  box-shadow: 0 0 0 3px rgba(184, 107, 115, 0.2);
+  box-shadow: 0 0 0 3px rgba(156, 78, 87, 0.24);
 }
 
 .form-input.error, .form-select.error, .form-textarea.error {
-  border-color: #E53E3E;
-  background-color: rgba(229, 62, 62, 0.08);
+  border-color: var(--text-error);
+  background-color: var(--bg-error);
 }
 
 .field-error {
   font-size: 0.8125rem;
-  color: #E53E3E;
+  color: var(--text-error);
   margin-top: 0.3rem;
   display: none;
 }
@@ -1132,6 +1224,7 @@ html.dark .theme-toggle-btn .moon-icon {
   color: var(--text-main);
 }
 
+.submission-notification.demo-prepared h3,
 .submission-notification.demo-prepared h4 {
   font-size: 1.05rem;
   font-weight: 700;
@@ -1276,6 +1369,7 @@ html.dark .footer-grid {
   border-bottom-color: #1B201D;
 }
 
+.footer-brand h2,
 .footer-brand h4 {
   font-size: 1.2rem;
   font-weight: 700;
@@ -1290,6 +1384,7 @@ html.dark .footer-grid {
   max-width: 22rem;
 }
 
+.footer-column h3,
 .footer-column h5 {
   font-size: 0.8125rem;
   font-weight: 700;
@@ -1314,7 +1409,7 @@ html.dark .footer-grid {
 }
 
 .footer-links a:hover {
-  color: var(--accent-rose);
+  color: #E49BA2;
 }
 
 .footer-bottom {
@@ -1323,7 +1418,7 @@ html.dark .footer-grid {
   justify-content: space-between;
   align-items: center;
   font-size: 0.8125rem;
-  color: #7A817C;
+  color: #9CA29D;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -2147,9 +2242,28 @@ body.editorial-headings .section-title {
   }
 }
 
+/* Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .service-link:hover,
+  .article-back-link:hover {
+    transform: none;
+  }
+}
+
 /* Print Styles */
 @media print {
-  .site-header, .site-footer, .results-actions, .quiz-container, .theme-toggle-btn {
+  .skip-link, .site-header, .site-footer, .results-actions, .quiz-container, .theme-toggle-btn {
     display: none !important;
   }
   body {

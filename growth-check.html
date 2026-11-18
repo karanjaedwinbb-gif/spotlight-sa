@@ -58,6 +58,7 @@
   </script>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Top Navigation Bar -->
   <header class="site-header">
@@ -108,7 +109,7 @@
     </div>
   </header>
 
-  <main class="section">
+  <main id="main-content" class="section" tabindex="-1">
     <div class="container">
       <div class="section-header text-center" style="margin-bottom: 2.5rem;">
         <span class="section-kicker">Interactive Diagnostic Tool</span>
@@ -142,7 +143,7 @@
           <!-- Question 1: Google Business Profile -->
           <fieldset class="question-block" style="border: none; padding: 0;">
             <legend class="question-number">Question 01 of 06 · Local Discovery</legend>
-            <h3 class="question-text">Does your salon have an active, verified Google Business Profile?</h3>
+            <h2 class="question-text">Does your salon have an active, verified Google Business Profile?</h2>
             <p class="question-context">
               When Adelaide clients search "lash extensions near me" or look at Google Maps in your suburb, how does your salon show up?
             </p>
@@ -176,7 +177,7 @@
           <!-- Question 2: Online Booking -->
           <fieldset class="question-block" style="border: none; padding: 0;">
             <legend class="question-number">Question 02 of 06 · Booking Conversion</legend>
-            <h3 class="question-text">Can customers book appointments directly online at any time?</h3>
+            <h2 class="question-text">Can customers book appointments directly online at any time?</h2>
             <p class="question-context">
               Clients often look for appointments in the evening after work. How easily can they reserve a time slot?
             </p>
@@ -210,7 +211,7 @@
           <!-- Question 3: Clear Pricing & Treatments -->
           <fieldset class="question-block" style="border: none; padding: 0;">
             <legend class="question-number">Question 03 of 06 · Digital Trust</legend>
-            <h3 class="question-text">Does your website or profile clearly display treatments and prices upfront?</h3>
+            <h2 class="question-text">Does your website or profile clearly display treatments and prices upfront?</h2>
             <p class="question-context">
               First-time beauty clients hesitate when prices or appointment durations are ambiguous.
             </p>
@@ -244,7 +245,7 @@
           <!-- Question 4: Content Regularity -->
           <fieldset class="question-block" style="border: none; padding: 0;">
             <legend class="question-number">Question 04 of 06 · Content &amp; Social</legend>
-            <h3 class="question-text">How regularly do you update your online content with authentic work?</h3>
+            <h2 class="question-text">How regularly do you update your online content with authentic work?</h2>
             <p class="question-context">
               Consistent photos of real client results (lashes, brows, nails) reassure prospective clients that your salon is active and skilled.
             </p>
@@ -278,7 +279,7 @@
           <!-- Question 5: Marketing Tracking & Attribution -->
           <fieldset class="question-block" style="border: none; padding: 0;">
             <legend class="question-number">Question 05 of 06 · Marketing Analytics</legend>
-            <h3 class="question-text">Do you know which specific marketing channels generate your bookings?</h3>
+            <h2 class="question-text">Do you know which specific marketing channels generate your bookings?</h2>
             <p class="question-context">
               Understanding where paying clients come from prevents wasting time on low-return activities.
             </p>
@@ -312,7 +313,7 @@
           <!-- Question 6: Reviews & Customer Feedback -->
           <fieldset class="question-block" style="border: none; padding: 0;">
             <legend class="question-number">Question 06 of 06 · Reputation &amp; Reviews</legend>
-            <h3 class="question-text">Do you actively gather Google reviews and respond to client feedback?</h3>
+            <h2 class="question-text">Do you actively gather Google reviews and respond to client feedback?</h2>
             <p class="question-context">
               Reviews are the #1 trust factor Adelaide beauty clients look for before trying a new salon.
             </p>
@@ -342,7 +343,7 @@
           </fieldset>
 
           <!-- Error Message Display -->
-          <div id="quizValidationMsg" style="display: none; padding: 1rem; background-color: rgba(229, 62, 62, 0.1); border: 1px solid rgba(229, 62, 62, 0.3); border-radius: var(--radius-md); color: #E53E3E; font-size: 0.875rem; margin-top: 1.5rem;"></div>
+          <div id="quizValidationMsg" class="quiz-validation-msg" role="alert"></div>
 
           <div class="quiz-controls">
             <span style="font-size: 0.8125rem; color: var(--text-muted);">
@@ -405,7 +406,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <h4>Spotlight SA<span style="color: var(--accent-rose);">.</span></h4>
+          <h2>Spotlight SA<span style="color: var(--accent-rose);">.</span></h2>
           <p>
             Helping Adelaide beauty salons turn online attention into confirmed customer bookings through ethical, outcome-focused marketing strategy.
           </p>
@@ -415,7 +416,7 @@
         </div>
 
         <div class="footer-column">
-          <h5>Navigation</h5>
+          <h3>Navigation</h3>
           <ul class="footer-links">
             <li><a href="./index.html">Home</a></li>
             <li><a href="./about.html">About Spotlight SA</a></li>
@@ -427,7 +428,7 @@
         </div>
 
         <div class="footer-column">
-          <h5>Core Services</h5>
+          <h3>Core Services</h3>
           <ul class="footer-links">
             <li><a href="./services.html#local-seo">Local SEO &amp; Google Profile</a></li>
             <li><a href="./services.html#conversion">Website Conversion Optimisation</a></li>
@@ -437,11 +438,11 @@
         </div>
 
         <div class="footer-column">
-          <h5>Diagnostic Standards</h5>
+          <h3>Diagnostic Standards</h3>
           <p style="font-size: 0.875rem; color: #A8ADA9; line-height: 1.5; margin-bottom: 1rem;">
             Designed to help salon owners identify conversion leaks and prioritize marketing effort.
           </p>
-          <span style="display: inline-block; font-size: 0.75rem; color: #868C88; text-transform: uppercase; letter-spacing: 0.05em;">
+          <span style="display: inline-block; font-size: 0.75rem; color: #A8ADA9; text-transform: uppercase; letter-spacing: 0.05em;">
             Adelaide, South Australia
           </span>
         </div>
