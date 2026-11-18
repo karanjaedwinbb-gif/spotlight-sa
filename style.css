@@ -1991,6 +1991,119 @@ html.dark .footer-grid {
   }
 }
 
+/* ==========================================================================
+   EDITORIAL SERIF DISPLAY TYPOGRAPHY & HOMEPAGE FIGURES
+   ========================================================================== */
+
+body.editorial-headings .hero-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 2.9vw, 2.65rem);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+}
+
+body.editorial-headings .section-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.625rem, 2.3vw, 2.15rem);
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+}
+
+/* Homepage Three Figures Section */
+.figures-section {
+  padding: 3.25rem 0;
+  background-color: var(--bg-canvas);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: var(--theme-transition);
+}
+
+.figures-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.figure-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.figure-card:hover {
+  border-color: var(--accent-rose-soft);
+  box-shadow: var(--shadow-sm);
+}
+
+.figure-number {
+  font-family: var(--font-serif);
+  font-size: clamp(2.15rem, 3vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--accent-rose);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.75rem;
+}
+
+.figure-label {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  margin-bottom: 0.45rem;
+}
+
+.figure-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.58;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .figures-section {
+    padding: 2.5rem 0;
+  }
+
+  .figures-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .figure-card {
+    padding: 1.4rem 1.25rem;
+  }
+}
+
+@media (max-width: 390px) {
+  body.editorial-headings .hero-title {
+    font-size: clamp(1.62rem, 7vw, 1.95rem);
+    line-height: 1.2;
+  }
+
+  body.editorial-headings .section-title {
+    font-size: clamp(1.42rem, 6vw, 1.75rem);
+    line-height: 1.25;
+  }
+}
+
+@media (max-width: 340px) {
+  body.editorial-headings .hero-title {
+    font-size: 1.48rem;
+  }
+
+  body.editorial-headings .section-title {
+    font-size: 1.32rem;
+  }
+}
+
 /* Print Styles */
 @media print {
   .site-header, .site-footer, .results-actions, .quiz-container, .theme-toggle-btn {
